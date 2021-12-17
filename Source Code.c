@@ -127,13 +127,17 @@ void dequeue()
                 strcpy(antrian[i].data[j].menu,antrian[i+1].data[j].menu);
                 antrian[i].data[j].harga = antrian[i+1].data[j].harga;
             }
+            printf("\n\t=====================================\n");
+            printf("\n\t\t   Nomor Antrian %d", antrian[i].nomor);
+            printf("\n\t\tPesanan Anda sudah siap\n");
+            printf("\n\t=====================================");
             strcpy(antrian[i].nama,antrian[i+1].nama);
             antrian[i].banyak = antrian[i+1].banyak;
             antrian[i].total = antrian[i+1].total;
             antrian[i].nomor = antrian[i+1].nomor;
         }
         tail--;
-        printf("\nAntrian Berhasil Dihapus!");
+        printf("\n\n\t      Antrian Berhasil Dihapus!");
         if(tail==0){
             head=-1;
             tail=-1;
@@ -171,7 +175,7 @@ void tambah_menu()
 
     new_menu = malloc(n+1);
     printf("===============================\n");
-    printf("  MENAMBAH MENU RRUMAH MAKAN\n");
+    printf("  MENAMBAH MENU RUMAH MAKAN\n");
     printf("===============================\n\n");
     printf("Masukkan Nama Menu Baru : ");
     scanf("%s", new_menu);
@@ -194,13 +198,16 @@ void tambah_menu()
 
 void lihat_menu()
 {
-    printf("\nDaftar Menu :\n");
-    printf("\nKode Menu\tNama Menu\t\tHarga\n");
+    printf("\n\t\t\tDaftar Menu\n");
+    printf("+---------------+-----------------------+---------------+");
+    printf("\n|  Kode Menu    |\t  Nama Menu\t|     Harga\t|\n");
+    printf("+---------------+-----------------------+---------------+\n");
     for(int i=0;i<MAX;i++){
         if(id[i].isi==1){
-            printf("%d\t\t%s\t\t%d\n",id[i].kode,id[i].menu_baru,id[i].harga);
+            printf("|\t%d\t|\t%s\t|     %d\t|\n",id[i].kode,id[i].menu_baru,id[i].harga);
         }
     }
+    printf("+---------------+-----------------------+---------------+\n");
 }
 
 void title(){
