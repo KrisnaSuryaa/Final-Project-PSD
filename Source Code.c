@@ -165,6 +165,9 @@ void tambah_menu()
     size_t n=1, length;
 
     new_menu = malloc(n+1);
+    printf("===============================\n");
+    printf("  MENAMBAH MENU RRUMAH MAKAN\n");
+    printf("===============================\n\n");
     printf("Masukkan Nama Menu Baru : ");
     scanf("%s", new_menu);
 
