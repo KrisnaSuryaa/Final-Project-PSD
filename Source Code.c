@@ -43,7 +43,7 @@ int isfull()
 
 void enqueue()
 {
-    int code;
+    int code, uang, sisa;
     if(isempty()){
         head = tail = 0;
         enqueue();
@@ -75,7 +75,12 @@ void enqueue()
         {
             antrian[tail].total = antrian[tail].total + antrian[tail].data[i].harga;
         }
-        printf("\nTotal Bayar = %d", antrian[tail].total);
+        printf("\nTotal Bayar = Rp %d", antrian[tail].total);
+        printf("\nJumlah Uang = Rp ", uang);
+        scanf("%d", &uang);
+        printf("             ----------");
+        sisa = uang - antrian[tail].total;
+        printf("\nKembalian   = Rp %d\n", sisa);
         antrian[tail].nomor = no_order;
         ++no_order;
         ++tail;
