@@ -43,6 +43,7 @@ int isfull()
 
 void enqueue()
 {
+    int code;
     if(isempty()){
         head = tail = 0;
         enqueue();
@@ -59,15 +60,15 @@ void enqueue()
         printf("\nMasukan Nama Pelanggan : ");
         fflush(stdin);
         fgets(antrian[tail].nama,10,stdin);
-        printf("Banyak menu yang ingin dipesan : ");
+        printf("\nBanyak menu yang ingin dipesan : ");
         scanf("%d", &antrian[tail].banyak);
         for(int i=0; i<antrian[tail].banyak; i++)
         {
-            printf("\nMenu %d      : ", i+1);
-            fflush(stdin);
-            fgets(antrian[tail].data[i].menu,30,stdin);
-            printf("Harga       : ", i+1);
-            scanf("%d", &antrian[tail].data[i].harga);
+            printf("\nKode Menu %d      : ", i+1);
+            scanf("%d",&code);
+            int b = code-10;
+            strcpy(antrian[tail].data[i].menu,id[b].menu_baru);
+            antrian[tail].data[i].harga = id[b].harga;
         }
         antrian[tail].total=0;
         for(int i=0; i<antrian[tail].banyak; i++)
@@ -146,12 +147,11 @@ int hash(int panjang){
     cek=0;
     key=panjang%size;
     if(id[key].isi==0){
-        id[key].isi==1;
         cek=1;
         return 1;
     }
     else{
-        hash(panjang+1);
+        return hash(panjang+1);
     }
 }
 
@@ -165,13 +165,14 @@ void tambah_menu()
     scanf("%s", new_menu);
 
     length = strlen(new_menu);
-    printf("%d",length);
     hash(length);
     if(cek==1){
+        int b = key;
+        id[key].isi=1;
         strcpy(id[key].menu_baru,new_menu);
-        printf("Masukkan Harga Menu : ");
+        printf("\nMasukkan Harga Menu : ");
         scanf("%d",&id[key].harga);
-        id[key].kode==key+10;
+        id[key].kode=b+10;
         printf("Kode Menu : %d",id[key].kode);
     }
     else{
