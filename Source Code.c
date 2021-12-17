@@ -3,6 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAX 10
+#define size 7
+
+struct menu{
+    char menu_baru[30];
+    int harga;
+    int isi;
+    int kode;
+}id[MAX];
 
 struct queue{
     char nama[10];
@@ -15,7 +23,7 @@ struct queue{
     }data[MAX];
 }antrian[MAX];
 
-int head = -1, tail = -1,no_order=1;
+int head = -1, tail = -1,no_order=1,cek,key;
 
 int isempty()
 {
@@ -43,6 +51,7 @@ void enqueue()
         printf("\nAntrian Sudah Penuh!");
     }
     else{
+        lihat_menu();
         printf("\n===================================\n");
         printf("       NOMOR ANTRIAN ANDA\n\t      0%d\n", no_order);
         printf("    Antrian Yang Menunggu : %d\n", tail);
@@ -50,7 +59,6 @@ void enqueue()
         printf("\nMasukan Nama Pelanggan : ");
         fflush(stdin);
         fgets(antrian[tail].nama,10,stdin);
-        //lihat_menu();
         printf("Banyak menu yang ingin dipesan : ");
         scanf("%d", &antrian[tail].banyak);
         for(int i=0; i<antrian[tail].banyak; i++)
@@ -134,15 +142,53 @@ void clear()
     }
 }
 
-void tambah_menu()
-{
-
+int hash(int panjang){
+    cek=0;
+    key=panjang%size;
+    if(id[key].isi==0){
+        id[key].isi==1;
+        cek=1;
+        return 1;
+    }
+    else{
+        hash(panjang+1);
+    }
 }
 
-//void lihat_menu()
-//{
+void tambah_menu()
+{
+    char *new_menu = NULL;
+    size_t n=1, length;
 
-//}
+    new_menu = malloc(n+1);
+    printf("Masukkan Nama Menu Baru : ");
+    scanf("%s", new_menu);
+
+    length = strlen(new_menu);
+    printf("%d",length);
+    hash(length);
+    if(cek==1){
+        strcpy(id[key].menu_baru,new_menu);
+        printf("Masukkan Harga Menu : ");
+        scanf("%d",&id[key].harga);
+        id[key].kode==key+10;
+        printf("Kode Menu : %d",id[key].kode);
+    }
+    else{
+        printf("Maaf Data Menu Sudah Penuh!");
+    }
+}
+
+void lihat_menu()
+{
+    printf("\nDaftar Menu :\n");
+    printf("\nKode Menu\tNama Menu\t\tHarga\n");
+    for(int i=0;i<MAX;i++){
+        if(id[i].isi==1){
+            printf("%d\t\t%s\t\t%d\n",id[i].kode,id[i].menu_baru,id[i].harga);
+        }
+    }
+}
 
 void title(){
     system ("cls");
@@ -151,6 +197,25 @@ void title(){
 
 int main()
 {
+    for(int i=0; i<MAX; i++){
+    id[i].isi=0;
+    }
+
+    memcpy(id[0].menu_baru, "Ayam_Goreng", 12);
+    id[0].harga=18000;
+    id[0].isi=1;
+    id[0].kode=10;
+
+    memcpy(id[1].menu_baru, "Bakso_Ayam", 11);
+    id[1].harga=10000;
+    id[1].isi=1;
+    id[1].kode=11;
+
+    memcpy(id[2].menu_baru, "Es_Teh_Hangat", 13);
+    id[2].harga=3000;
+    id[2].isi=1;
+    id[2].kode=12;
+
     int pil,out;
 
     do{
@@ -188,7 +253,7 @@ int main()
                     getch();
                     break;
                 case 6 :
-                    //lihat_menu();
+                    lihat_menu();
                     getch();
                     break;
             }
