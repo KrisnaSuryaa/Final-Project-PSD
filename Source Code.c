@@ -129,6 +129,10 @@ void dequeue()
         }
         tail--;
         printf("\nAntrian Berhasil Dihapus!");
+        if(tail==0){
+            head=-1;
+            tail=-1;
+        }
     }
 }
 
