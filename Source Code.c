@@ -23,7 +23,7 @@ struct queue{
     }data[MAX];
 }antrian[MAX];
 
-int head = -1, tail = -1,no_order=1,cek,key;
+int head = -1, tail = -1,no_order=1,cek,key,menu_check;
 
 int isempty()
 {
@@ -41,9 +41,23 @@ int isfull()
         return 0;
 }
 
+int check (int cocok,int hitung){
+    menu_check=0;
+    if(hitung>MAX){
+        return 1;
+    }
+    if(cocok==id[hitung].kode){
+        menu_check=1;
+        return 1;
+    }
+    else{
+        return check(cocok, hitung+1);
+    }
+}
+
 void enqueue()
 {
-    int code, uang, sisa;
+    int code, uang, sisa, num=0;
     if(isempty()){
         head = tail = 0;
         enqueue();
@@ -66,9 +80,16 @@ void enqueue()
         {
             printf("\nKode Menu %d      : ", i+1);
             scanf("%d",&code);
-            int b = code-10;
-            strcpy(antrian[tail].data[i].menu,id[b].menu_baru);
-            antrian[tail].data[i].harga = id[b].harga;
+            check(code,num);
+            if(menu_check==1){
+                int b = code-10;
+                strcpy(antrian[tail].data[i].menu,id[b].menu_baru);
+                antrian[tail].data[i].harga = id[b].harga;
+            }
+            else{
+                printf("\nKode Menu Tidak Ada, Mohon Diisi Kembali!\n");
+                i--;
+            }
         }
         antrian[tail].total=0;
         for(int i=0; i<antrian[tail].banyak; i++)
@@ -108,29 +129,32 @@ void lihat_antrian()
 
 void dequeue()
 {
-    int count;
+    int count,a=0;
     if(isempty()){
         printf("\nMaaf, antrian kosong!\n");
     }
     else{
         for(int i=head;i<tail;i++){
-            if(antrian[i].banyak>antrian[i+1].banyak){
+            if(antrian[i].banyak==antrian[i+1].banyak){
                 count=antrian[i].banyak;
             }
-            if(antrian[i].banyak>antrian[i+1].banyak){
+            else if(antrian[i].banyak>antrian[i+1].banyak){
                 count=antrian[i].banyak;
             }
-            if(antrian[i].banyak<antrian[i+1].banyak){
+            else{
                 count=antrian[i+1].banyak;
             }
             for(int j=0;j<count;j++){
                 strcpy(antrian[i].data[j].menu,antrian[i+1].data[j].menu);
                 antrian[i].data[j].harga = antrian[i+1].data[j].harga;
             }
-            printf("\n\t=====================================\n");
-            printf("\n\t\t   Nomor Antrian %d", antrian[i].nomor);
-            printf("\n\t\tPesanan Anda sudah siap\n");
-            printf("\n\t=====================================");
+            if(a==0){
+                printf("\n\t=====================================\n");
+                printf("\n\t\t   Nomor Antrian %d", antrian[i].nomor);
+                printf("\n\t\tPesanan Anda sudah siap\n");
+                printf("\n\t=====================================");
+                a++;
+            }
             strcpy(antrian[i].nama,antrian[i+1].nama);
             antrian[i].banyak = antrian[i+1].banyak;
             antrian[i].total = antrian[i+1].total;
@@ -159,6 +183,9 @@ void clear()
 int hash(int panjang){
     cek=0;
     key=panjang%size;
+    if(panjang>MAX){
+        return 1;
+    }
     if(id[key].isi==0){
         cek=1;
         return 1;
